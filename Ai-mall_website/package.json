@@ -1,0 +1,22 @@
+{
+  "name": "aimall-monorepo",
+  "version": "2.0.0",
+  "description": "AI-Mall Fullstack Monorepo for GCP Deployment",
+  "main": "ai-mall_backend/server.js",
+  "scripts": {
+    "install:all": "npm install --prefix ai-mall_backend && npm install --prefix ai-mall_frontend",
+    "postinstall": "npm run install:all",
+    "build": "npm --prefix ai-mall_frontend run build",
+    "start": "npm --prefix ai-mall_backend start",
+    "dev:backend": "npm --prefix ai-mall_backend run dev",
+    "dev:frontend": "npm --prefix ai-mall_frontend run dev"
+  },
+  "keywords": [
+    "ai-mall",
+    "gcp",
+    "cloud-run",
+    "rag"
+  ],
+  "author": "",
+  "license": "ISC"
+}

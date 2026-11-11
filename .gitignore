@@ -1,0 +1,30 @@
+# Environment & Secrets
+.env
+.env.*
+*.env*
+**/.env
+**/.env.*
+**/recovered_*
+**/*credentials*.json
+google_cloud_credentials.json
+
+# Data & Knowledge base
+**/data.json
+**/knowledge.json
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+**/dist/
+**/build/
+
+# Logs & System
+*.log
+**/*.log
+.DS_Store
+**/.DS_Store
+.vscode/
+.idea/
+Ai-mall_website/.git_backup/

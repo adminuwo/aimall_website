@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+package-lock.json
+# Wait, usually package-lock.json should be committed, but the user may want to ignore it if they're having issues, 
+# although I recommend keeping it. I'll NOT include it in the default ignore unless they have reason.
+# Actually, I'll include .env, *log, and node_modules as essentials.
+
+# Environment Variables & Secrets
+.env
+.env.*
+*.env*
+recovered_env.txt
+recovered_data.json
+*credentials*.json
+google_cloud_credentials.json
+
+# Data / Knowledge Base
+knowledge.json
+data.json
+uploads/
+server_log.txt
+
+# Build/Dist
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDEs
+.vscode/
+.idea/
+
+# OS Specific
+.DS_Store
+Thumbs.db

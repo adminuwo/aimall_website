@@ -1,0 +1,8 @@
+runtime: nodejs18
+instance_class: F1
+
+entrypoint: npm --prefix ai-mall_frontend run build && cd ai-mall_backend && node server.js
+
+env_variables:
+  NODE_ENV: 'production'
+  PORT: '8080'

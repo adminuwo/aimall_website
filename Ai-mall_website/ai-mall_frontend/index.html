@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "xna5nopco6");
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PW6ZQYT8RY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-PW6ZQYT8RY');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-MALL™ | The Unified Marketplace for Enterprise-Grade AI</title>
+    <meta name="description"
+        content="Discover, deploy, and scale enterprise-grade AI solutions in one unified ecosystem. Explore the A-Series™ and the future of intelligent commerce. Now officially incubated with IIT Ropar – Technology Business Incubator Foundation (TBIF)">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/onboarding.css">
+    <link rel="icon" type="image/png" href="/logos/Logo.png">
+    <link rel="icon" type="image/png" href="/logos/Logo.png">
+    <script type="module">
+        // Inline script for UI Carousel
+        window.nextUICarousel = function () {
+            const track = document.getElementById('ui-carousel-track');
+            if (!track) return;
+            const slides = track.querySelectorAll('.ui-slide');
+            let activeIndex = -1;
+            slides.forEach((s, i) => { if (s.classList.contains('active')) activeIndex = i; });
+
+            if (activeIndex > -1) {
+                slides[activeIndex].classList.remove('active');
+                activeIndex = (activeIndex + 1) % slides.length;
+                slides[activeIndex].classList.add('active');
+
+                track.style.transform = `translateX(-${activeIndex * 100}%)`;
+            }
+        };
+
+        // Fullscreen Gallery Logic
+        window.galleryImages = [
+            "aimallproject/slide-1.png", "aimallproject/slide-2.png", "aimallproject/slide-3.png",
+            "aimallproject/slide-4.png", "aimallproject/slide-5.png", "aimallproject/slide-6.png",
+            "aimallproject/slide-7.png", "aimallproject/slide-8.png", "aimallproject/slide-9.png",
+            "aimallproject/slide-10.png", "aimallproject/slide-11.png", "aimallproject/slide-12.png"
+        ];
+        window.currentGalleryIndex = 0;
+
+        window.openGalleryModal = function () {
+            const modal = document.getElementById('gallery-modal');
+            if (!modal) return;
+            // Sync with current slide of the main carousel
+            const track = document.getElementById('ui-carousel-track');
+            if (track) {
+                const slides = track.querySelectorAll('.ui-slide');
+                slides.forEach((s, i) => { if (s.classList.contains('active')) window.currentGalleryIndex = i; });
+            }
+            updateGalleryImage();
+            modal.classList.add('open');
+        };
+
+        window.closeGalleryModal = function () {
+            const modal = document.getElementById('gallery-modal');
+            if (modal) modal.classList.remove('open');
+        };
+
+        window.galleryNext = function () {
+            window.currentGalleryIndex = (window.currentGalleryIndex + 1) % window.galleryImages.length;
+            updateGalleryImage();
+        };
+
+        window.galleryPrev = function () {
+            window.currentGalleryIndex = (window.currentGalleryIndex - 1 + window.galleryImages.length) % window.galleryImages.length;
+            updateGalleryImage();
+        };
+
+        window.updateGalleryImage = function () {
+            const img = document.getElementById('gallery-img');
+            const curr = document.getElementById('gallery-current');
+            if (img) {
+                img.style.opacity = '0';
+                setTimeout(() => {
+                    img.src = window.galleryImages[window.currentGalleryIndex];
+                    img.style.opacity = '1';
+                }, 150);
+            }
+            if (curr) curr.innerText = window.currentGalleryIndex + 1;
+        };
+    </script>
+</head>
+
+<body class="loading">
+
+    <!-- Unified Loader & Onboarding Overlay -->
+    <div id="onboarding-overlay">
+        <div class="loader-bg-text">AI-MALL</div>
+
+        <!-- Minimal Premium Loader -->
+        <div id="new-loader">
+            <div class="pulse-ring"></div>
+            <img src="/logos/Logo.png" alt="AI-MALL Logo" class="new-loader-img">
+            <div class="new-loader-text">AI-MALL<span class="tm">™</span></div>
+            <div class="new-loader-line-container">
+                <div class="new-loader-line"></div>
+            </div>
+            <!-- Interaction Request Button Removed -->
+        </div>
+
+        <!-- Welcome Card (Onboarding Modal) -->
+        <div id="welcome-card" style="display: none;">
+            <div class="welcome-card-bg-logo">
+                <img src="logos/Logo.png" alt="">
+            </div>
+            <div class="welcome-card-content">
+                <div class="welcome-icon">
+                    <img src="logos/BOT.png" alt="AI Assistant" class="welcome-bot-img">
+                </div>
+                <h2>Hello, I'm AI-MALL assistant</h2>
+                <div class="welcome-tagline">Your Unified Gateway to the AI Ecosystem</div>
+                <p>Explore a next-generation marketplace of enterprise-grade AI. Whether you're looking for A-Series™
+                    solutions or Global Partnerships, I'm here to guide your journey.</p>
+                <div class="welcome-bullets">
+                    <span>✦ Smart RAG Search</span>
+                    <span>✦ 24/7 Digital Support</span>
+                    <span>✦ Seamless Scaling</span>
+                </div>
+                <div class="welcome-buttons">
+                    <button id="btn-try-now" class="btn-primary">Get Started</button>
+                    <button id="btn-got-it" class="btn-secondary">Explore First</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Global Background Elements -->
+    <div class="global-noise"></div>
+    <div class="ambient-glow"></div>
+
+    <!-- Header / Navigation -->
+    <header id="header">
+        <div class="logo" onclick="openAdmin()">
+            <img src="logos/Logo.png" alt="AI-MALL" class="nav-logo-img">
+        </div>
+        <nav id="nav-menu">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="a-series.html" class="nav-link">A-Series™</a>
+            <a href="partner.html" class="nav-link">Partners</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+            <div class="header-cta desktop-only">
+                <a href="partner.html" class="nav-btn-link">Partner</a>
+                <a href="a-series.html" class="btn-pill-small">Explore</a>
+            </div>
+
+            <button class="mobile-menu-btn" id="mobile-toggle" aria-label="Toggle Menu">
+                <span class="bar top"></span>
+                <span class="bar mid"></span>
+                <span class="bar bot"></span>
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content">
+
+        <!-- HERO SECTION -->
+        <section id="hero" class="fullscreen-section">
+            <div class="hero-bg">
+                <img src="Gemini_Generated_Image_osuhefosuhefosuh.png" alt="AI Neural Network" class="parallax-img">
+                <div class="hero-overlay"></div>
+            </div>
+
+            <div class="container hero-container">
+
+
+
+
+                <div class="hero-content text-center">
+                    <!-- <span class="floating-badge reveal-subtext">THE AI INTELLIGENCE ECOSYSTEM</span> -->
+                    <h1 class="headline reveal-text">
+                        The Unified <br> Marketplace <em>for</em> <br> Enterprise-Grade AI.
+                    </h1>
+                    <p class="subheadline reveal-subtext">
+                        Where businesses discover, deploy, and scale <br>
+                        AI solutions in one connected, cinematic ecosystem. We are now officially incubated with <strong>IIT Ropar – Technology Business Incubator Foundation (TBIF)</strong>
+                    </p>
+
+                    <div class="cta-group">
+                        <a href="https://a-series.in" target="_blank" class="btn-premium primary glow">
+                            Explore A-Series™
+                            <span class="btn-icon">→</span>
+                        </a>
+                        <a href="partner.html" class="btn-premium secondary">
+                            Partner With Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scroll-indicator">
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+                <span>Discover the Ecosystem</span>
+            </div>
+        </section>
+
+        <!-- VALUE PILLARS SECTION -->
+        <section id="pillars" class="scroll-section">
+            <div class="container pillars-premium-container">
+                <div class="section-header centered">
+                    <div class="section-label">Foundation</div>
+                    <h2 class="section-title font-heading">Built for the <span class="gradient-text">Intelligence
+                            Age</span></h2>
+                    <p class="section-subtitle">Our foundation is designed to power the next generation of enterprise AI
+                        solutions with scale, security and intelligence.</p>
+                </div>
+
+                <div class="pillars-grid">
+                    <!-- Column 1 -->
+                    <div class="pillar-column" data-pillar="platform">
+                        <div class="pillar-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+                                    opacity="0.4" />
+                                <circle cx="12" cy="12" r="3" />
+                                <circle cx="12" cy="2" r="1.5" />
+                                <circle cx="12" cy="22" r="1.5" />
+                                <circle cx="2" cy="12" r="1.5" />
+                                <circle cx="22" cy="12" r="1.5" />
+                                <circle cx="5" cy="5" r="1.5" />
+                                <circle cx="19" cy="19" r="1.5" />
+                                <circle cx="5" cy="19" r="1.5" />
+                                <circle cx="19" cy="5" r="1.5" />
+                            </svg>
+                        </div>
+                        <div class="pillar-illustration-wrapper">
+                            <div class="pillar-illustration-glow"></div>
+                            <img src="modular_ai_platform.png" alt="One Platform, Multiple AI Apps"
+                                class="pillar-illustration">
+                        </div>
+                        <h3 class="pillar-title">One Platform, Multiple AI Apps</h3>
+                        <p class="pillar-description">A-Series™ delivers business-ready automation and cognitive
+                            intelligence across multiple verticals.</p>
+                        <a href="javascript:void(0)" class="pillar-learn-more"
+                            onclick="openPillarModal('platform')">Learn More <span class="arrow">→</span></a>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="pillar-column" data-pillar="enterprise">
+                        <div class="pillar-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                <path d="M12 8v8M9 12h6" opacity="0.7" />
+                            </svg>
+                        </div>
+                        <div class="pillar-illustration-wrapper">
+                            <div class="pillar-illustration-glow"></div>
+                            <img src="enterprise_ai_servers.png" alt="Enterprise-Grade Architecture"
+                                class="pillar-illustration">
+                        </div>
+                        <h3 class="pillar-title">Enterprise-Grade Architecture</h3>
+                        <p class="pillar-description">Built for scale, security, and plug-and-play integrations across
+                            global infrastructures.</p>
+                        <a href="javascript:void(0)" class="pillar-learn-more"
+                            onclick="openPillarModal('architecture')">Learn More <span class="arrow">→</span></a>
+                    </div>
+
+                    <!-- Column 3 -->
+                    <div class="pillar-column" data-pillar="marketplace">
+                        <div class="pillar-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M3 9h18M3 21h18M3 9v12M21 9v12M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5V9H3V5.5z" />
+                                <path d="M5.5 9V5.5M12 9V3M18.5 9V5.5" opacity="0.6" />
+                            </svg>
+                        </div>
+                        <div class="pillar-illustration-wrapper">
+                            <div class="pillar-illustration-glow"></div>
+                            <img src="ai_marketplace_dashboard.png" alt="AI Marketplace" class="pillar-illustration">
+                        </div>
+                        <h3 class="pillar-title">AI Marketplace</h3>
+                        <p class="pillar-description">A curated hub for professional, enterprise and consumer AI
+                            applications.</p>
+                        <a href="javascript:void(0)" class="pillar-learn-more"
+                            onclick="openPillarModal('marketplace')">Learn More <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+                <!-- Bottom Centered Badge -->
+                <div class="pillars-bottom-badge">
+                    <span class="badge-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .6 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                            <path d="M9 18h6M10 22h4" />
+                        </svg>
+                    </span>
+                    <span class="badge-text">These core pillars work together to deliver a unified, intelligent and
+                        future-ready ecosystem for every business.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             FOUNDATION PILLAR MODALS
+        ═══════════════════════════════════════════════════════ -->
+        <div id="pillar-modal-backdrop" class="pillar-modal-backdrop" onclick="closePillarModal()"></div>
+
+        <!-- MODAL 1: One Platform, Multiple AI Apps -->
+        <div id="pillar-modal-platform" class="pillar-modal" role="dialog" aria-modal="true"
+            aria-labelledby="pmod-platform-title">
+            <button class="pillar-modal-close" onclick="closePillarModal()" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+            <div class="pillar-modal-inner">
+                <div class="pillar-modal-img-col">
+                    <div class="pillar-modal-img-wrap">
+                        <img src="modular_ai_platform.png" alt="One Platform, Multiple AI Apps"
+                            class="pillar-modal-img">
+                        <div class="pillar-modal-img-glow"></div>
+                    </div>
+                    <div class="pillar-modal-badge">ONE PLATFORM</div>
+                </div>
+                <div class="pillar-modal-content">
+                    <span class="pillar-modal-eyebrow">Foundation · Platform</span>
+                    <h2 class="pillar-modal-title" id="pmod-platform-title">One Platform,<br>Multiple AI Apps</h2>
+                    <p class="pillar-modal-intro">A unified intelligent layer that hosts, connects, and orchestrates
+                        every AI module your business needs — from a single control plane.</p>
+                    <div class="pillar-modal-section">
+                        <h4 class="pillar-modal-section-title">Platform Capabilities</h4>
+                        <ul class="pillar-modal-list">
+                            <li>Modular AI tiles that connect through standardized APIs</li>
+                            <li>Run support agents, sales modules, legal review and survey apps side-by-side</li>
+                            <li>Shared context, memory and identity across all modules</li>
+                            <li>Auto-scaling components without disrupting primary data flow</li>
+                            <li>Single unified identity &amp; access management layer</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL 2: Enterprise-Grade Architecture -->
+        <div id="pillar-modal-architecture" class="pillar-modal" role="dialog" aria-modal="true"
+            aria-labelledby="pmod-arch-title">
+            <button class="pillar-modal-close" onclick="closePillarModal()" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+            <div class="pillar-modal-inner">
+                <div class="pillar-modal-img-col">
+                    <div class="pillar-modal-img-wrap">
+                        <img src="enterprise_ai_servers.png" alt="Enterprise-Grade Architecture"
+                            class="pillar-modal-img">
+                        <div class="pillar-modal-img-glow"></div>
+                    </div>
+                    <div class="pillar-modal-badge">ENTERPRISE GRADE</div>
+                </div>
+                <div class="pillar-modal-content">
+                    <span class="pillar-modal-eyebrow">Foundation · Architecture</span>
+                    <h2 class="pillar-modal-title" id="pmod-arch-title">Enterprise-Grade<br>Architecture</h2>
+                    <p class="pillar-modal-intro">Secure, resilient, and always-on cloud infrastructure engineered to
+                        sustain intense enterprise AI workloads at global scale.</p>
+                    <div class="pillar-modal-section">
+                        <h4 class="pillar-modal-section-title">Infrastructure Stack</h4>
+                        <ul class="pillar-modal-list">
+                            <li>Distributed container clusters across active-active availability zones</li>
+                            <li>Encrypted data vaults, key rotation and network isolation (VPC)</li>
+                            <li>Redundant databases with zero data-loss disaster recovery</li>
+                            <li>Auto-scaling layers that absorb traffic surges instantly</li>
+                            <li>Flexible deployment on managed nodes or your private cloud</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL 3: AI Marketplace -->
+        <div id="pillar-modal-marketplace" class="pillar-modal" role="dialog" aria-modal="true"
+            aria-labelledby="pmod-mkt-title">
+            <button class="pillar-modal-close" onclick="closePillarModal()" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+            <div class="pillar-modal-inner">
+                <div class="pillar-modal-img-col">
+                    <div class="pillar-modal-img-wrap">
+                        <img src="ai_marketplace_dashboard.png" alt="AI Marketplace" class="pillar-modal-img">
+                        <div class="pillar-modal-img-glow"></div>
+                    </div>
+                    <div class="pillar-modal-badge">AI MARKETPLACE</div>
+                </div>
+                <div class="pillar-modal-content">
+                    <span class="pillar-modal-eyebrow">Foundation · Marketplace</span>
+                    <h2 class="pillar-modal-title" id="pmod-mkt-title">AI<br>Marketplace</h2>
+                    <p class="pillar-modal-intro">A curated enterprise catalog to discover, test, and deploy specialized
+                        AI modules — from first-party A-Series™ products to vetted partner integrations.</p>
+                    <div class="pillar-modal-section">
+                        <h4 class="pillar-modal-section-title">Marketplace Features</h4>
+                        <ul class="pillar-modal-list">
+                            <li>Enterprise app catalog with vetted security standards</li>
+                            <li>One-click activation — no code rewriting or server setup</li>
+                            <li>Transparent performance metrics and SLA documentation</li>
+                            <li>Unified billing, invoicing and scalable API quotas</li>
+                            <li>Continuously expanding with first-party and partner releases</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            /* ═══════════════════════════════════════════════════════════════
+               FOUNDATION PILLAR MODAL SYSTEM
+               Self-contained — no dependency on main.js
+            ═══════════════════════════════════════════════════════════════ */
+            (function () {
+                var _activeModal = null;
+                var _savedScrollY = 0;
+
+                window.openPillarModal = function (key) {
+                    closePillarModal(); // close any open one first
+                    var modal = document.getElementById('pillar-modal-' + key);
+                    var backdrop = document.getElementById('pillar-modal-backdrop');
+                    if (!modal || !backdrop) return;
+
+                    // Save scroll position & lock background
+                    _savedScrollY = window.scrollY || window.pageYOffset;
+                    document.body.classList.add('pillar-modal-open');
+
+                    backdrop.classList.add('active');
+                    modal.classList.add('active');
+                    _activeModal = key;
+
+                    // Focus trap: move focus to close button
+                    var closeBtn = modal.querySelector('.pillar-modal-close');
+                    if (closeBtn) setTimeout(function () { closeBtn.focus(); }, 80);
+                };
+
+                window.closePillarModal = function () {
+                    var backdrop = document.getElementById('pillar-modal-backdrop');
+                    if (backdrop) backdrop.classList.remove('active');
+
+                    // Close all modals
+                    ['platform', 'architecture', 'marketplace'].forEach(function (k) {
+                        var m = document.getElementById('pillar-modal-' + k);
+                        if (m) m.classList.remove('active');
+                    });
+
+                    // Restore scroll & go to Foundation section
+                    document.body.classList.remove('pillar-modal-open');
+                    var pillarsSection = document.getElementById('pillars');
+                    if (pillarsSection) {
+                        pillarsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        window.scrollTo(0, _savedScrollY);
+                    }
+                    _activeModal = null;
+                };
+
+                // ESC key to close
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && _activeModal) closePillarModal();
+                });
+
+                // Prevent click-through on modal content
+                ['platform', 'architecture', 'marketplace'].forEach(function (k) {
+                    var m = document.getElementById('pillar-modal-' + k);
+                    if (m) m.addEventListener('click', function (e) { e.stopPropagation(); });
+                });
+            })();
+        </script>
+
+        <!-- A-SERIES PREMIUM SHOWCASE SECTION -->
+
+        <section id="a-series" class="aseries-showcase scroll-section">
+            <!-- Particle Canvas Background -->
+            <canvas id="aseries-particles" class="aseries-particle-canvas"></canvas>
+            <!-- Ambient Gradient Blobs -->
+            <div class="aseries-blob blob-blue"></div>
+            <div class="aseries-blob blob-purple"></div>
+            <div class="aseries-blob blob-cyan"></div>
+            <!-- AI Network Lines SVG -->
+            <svg class="aseries-network-lines" viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:rgba(99,102,241,0);stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:rgba(99,102,241,0.35);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:rgba(168,85,247,0);stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <line x1="0" y1="200" x2="1400" y2="600" stroke="url(#lineGrad)" stroke-width="1" class="net-line" />
+                <line x1="200" y1="0" x2="800" y2="800" stroke="url(#lineGrad)" stroke-width="1" class="net-line"
+                    style="animation-delay:0.5s" />
+                <line x1="600" y1="0" x2="1400" y2="500" stroke="url(#lineGrad)" stroke-width="1" class="net-line"
+                    style="animation-delay:1s" />
+                <line x1="0" y1="500" x2="1000" y2="100" stroke="url(#lineGrad)" stroke-width="1" class="net-line"
+                    style="animation-delay:1.5s" />
+                <line x1="900" y1="800" x2="1400" y2="200" stroke="url(#lineGrad)" stroke-width="1" class="net-line"
+                    style="animation-delay:2s" />
+            </svg>
+
+            <div class="aseries-inner">
+                <!-- LEFT: Text Content -->
+                <div class="aseries-text-col" id="aseries-text-col">
+                    <span class="aseries-eyebrow">THE ECOSYSTEM</span>
+                    <h2 class="aseries-heading">
+                        <span class="aseries-heading-line">A-Series™</span>
+                        <span class="aseries-heading-line aseries-gradient-text">Module Suite</span>
+                    </h2>
+                    <p class="aseries-subtext">
+                        A curated stack of enterprise-grade AI modules — each purpose-built to transform a vertical.
+                        Discover, deploy, and scale intelligence across your organization.
+                    </p>
+                    <div class="aseries-cta-row">
+                        <a href="a-series.html" class="aseries-btn-primary">
+                            Explore All Modules
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="9 18 15 12 9 6" />
+                            </svg>
+                        </a>
+                        <a href="partner.html" class="aseries-btn-ghost">Partner With Us</a>
+                    </div>
+                    <div class="aseries-stats-row">
+                        <div class="aseries-stat">
+                            <span class="aseries-stat-num">8+</span>
+                            <span class="aseries-stat-lbl">Live Modules</span>
+                        </div>
+                        <div class="aseries-stat-sep"></div>
+                        <div class="aseries-stat">
+                            <span class="aseries-stat-num">10+</span>
+                            <span class="aseries-stat-lbl">Verticals Covered</span>
+                        </div>
+                        <div class="aseries-stat-sep"></div>
+                        <div class="aseries-stat">
+                            <span class="aseries-stat-num">∞</span>
+                            <span class="aseries-stat-lbl">Scalability</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Floating Carousel -->
+                <div class="aseries-carousel-col">
+                    <div class="aseries-carousel-wrapper" id="aseries-carousel-wrapper">
+                        <!-- Cards rendered by JS -->
+                    </div>
+
+                    <!-- Navigation Controls -->
+                    <div class="aseries-nav-row">
+                        <button class="aseries-nav-btn" id="aseries-prev" aria-label="Previous module">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="15 18 9 12 15 6" />
+                            </svg>
+                        </button>
+                        <div class="aseries-dots" id="aseries-dots"></div>
+                        <button class="aseries-nav-btn" id="aseries-next" aria-label="Next module">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="9 18 15 12 9 6" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Bottom Player Controls -->
+                    <div class="aseries-player-controls">
+                        <button class="aseries-player-btn" id="aseries-like-btn" title="Like"
+                            onclick="toggleAseriesLike()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                </path>
+                            </svg>
+                        </button>
+                        <button class="aseries-player-btn" id="aseries-shuffle-btn" title="Shuffle"
+                            onclick="shuffleAseriesCarousel()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="16 3 21 3 21 8"></polyline>
+                                <line x1="4" y1="20" x2="21" y2="3"></line>
+                                <polyline points="21 16 21 21 16 21"></polyline>
+                                <line x1="15" y1="15" x2="21" y2="21"></line>
+                                <line x1="4" y1="4" x2="9" y2="9"></line>
+                            </svg>
+                        </button>
+                        <button class="aseries-player-btn aseries-play-main" id="aseries-autoplay-btn" title="Auto-Play"
+                            onclick="toggleAseriesAutoplay()">
+                            <svg id="aseries-play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <svg id="aseries-pause-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                style="display:none;">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
+                            </svg>
+                        </button>
+                        <button class="aseries-player-btn" id="aseries-repeat-btn" title="Loop"
+                            onclick="toggleAseriesRepeat()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="17 1 21 5 17 9"></polyline>
+                                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                                <polyline points="7 23 3 19 7 15"></polyline>
+                                <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                            </svg>
+                        </button>
+                        <button class="aseries-player-btn" id="aseries-volume-btn" title="Volume"
+                            onclick="toggleAseriesVolume()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="aseries-tagline">
+                <div class="aseries-tagline-line"></div>
+                <span>More AI modules launching every month.</span>
+                <div class="aseries-tagline-line"></div>
+            </div>
+        </section>
+
+        <!-- A-SERIES MODULE FULLSCREEN MODAL -->
+        <div id="aseries-modal" class="aseries-modal" aria-hidden="true">
+            <div class="aseries-modal-backdrop" onclick="closeAseriesModal()"></div>
+            <div class="aseries-modal-card">
+                <button class="aseries-modal-close" onclick="closeAseriesModal()" aria-label="Close">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="aseries-modal-inner">
+                    <div class="aseries-modal-img-wrap">
+                        <img id="aseries-modal-img" src="" alt="Module Preview">
+                        <div class="aseries-modal-img-glow"></div>
+                    </div>
+                    <div class="aseries-modal-info">
+                        <span class="aseries-modal-badge">AI MODULE</span>
+                        <h3 id="aseries-modal-title" class="aseries-modal-title"></h3>
+                        <p id="aseries-modal-desc" class="aseries-modal-desc"></p>
+                        <div class="aseries-modal-nav-row">
+                            <button class="aseries-modal-nav-btn" onclick="prevAseriesModal()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                                Previous
+                            </button>
+                            <span id="aseries-modal-counter" class="aseries-modal-counter">1 / 8</span>
+                            <button class="aseries-modal-nav-btn" onclick="nextAseriesModal()">
+                                Next
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                            </button>
+                        </div>
+                        <a href="a-series.html" class="aseries-modal-cta">Explore Module →</a>
+                    </div>
+                </div>
+                <!-- Modal Bottom Controls -->
+                <div class="aseries-modal-footer">
+                    <button class="aseries-modal-ctrl-btn" onclick="toggleAseriesLike()" title="Like">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="aseries-modal-ctrl-btn" onclick="prevAseriesModal()" title="Previous">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                            <line x1="5" y1="19" x2="5" y2="5"></line>
+                        </svg>
+                    </button>
+                    <button class="aseries-modal-ctrl-btn aseries-modal-play-btn" id="aseries-modal-autoplay-btn"
+                        onclick="toggleAseriesAutoplay()" title="Auto-Play">
+                        <svg id="aseries-modal-play-icon" width="20" height="20" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <svg id="aseries-modal-pause-icon" width="20" height="20" viewBox="0 0 24 24"
+                            fill="currentColor" style="display:none;">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+
+                    </button>
+                    <button class="aseries-modal-ctrl-btn" onclick="nextAseriesModal()" title="Next">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                            <line x1="19" y1="5" x2="19" y2="19"></line>
+                        </svg>
+                    </button>
+                    <button class="aseries-modal-ctrl-btn" id="aseries-modal-volume-btn" onclick="toggleAseriesVolume()"
+                        title="Volume">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- UNIVERSAL FOOTER -->
+        <footer>
+            <div class="container footer-container">
+                <div class="footer-main">
+                    <!-- Brand Section -->
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <img src="logos/Logo.png" alt="AI-MALL" class="footer-logo-img">
+                        </div>
+                        <p class="footer-description">
+                            Your gateway to next-generation intelligent solutions. Empowering businesses with AI-driven
+                            innovation and digital transformation.
+                        </p>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="footer-nav">
+                        <div class="footer-col">
+                            <h4>Explore</h4>
+                            <a href="a-series.html" class="footer-link">A-Series™</a>
+                            <a href="partner.html" class="footer-link">Partner With Us</a>
+                            <a href="https://uwo24.com/privacy-policy" target="_blank" rel="noopener noreferrer"
+                                class="footer-link">Privacy Policy</a>
+                        </div>
+                        <div class="footer-col">
+                            <h4>Company</h4>
+                            <a href="about.html" class="footer-link">About Us</a>
+                            <a href="contact.html" class="footer-link">Contact</a>
+                            <a href="javascript:void(0)" onclick="openLegalModal('terms')" class="footer-link">Terms &
+                                Conditions</a>
+                        </div>
+                    </div>
+
+                    <div class="footer-social-hub">
+                        <h4>Connect</h4>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/aimall.global/" class="social-icon"
+                                aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                                <img src="/logos/instagram.png" alt="Instagram">
+                            </a>
+                            <a href="https://www.linkedin.com/in/aimall-global/" class="social-icon"
+                                aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                                <img src="/logos/linked.png" alt="LinkedIn">
+                            </a>
+                            <a href="https://x.com/aimallglobal" class="social-icon" aria-label="X" target="_blank"
+                                rel="noopener noreferrer">
+                                <img src="/logos/X.png" alt="X">
+                            </a>
+                            <a href="https://www.youtube.com/@aimallglobal" class="social-icon" aria-label="YouTube"
+                                target="_blank" rel="noopener noreferrer">
+                                <img src="/logos/youtube.png" alt="YouTube">
+                            </a>
+                            <a href="https://in.pinterest.com/aimallglobal/" class="social-icon" aria-label="Pinterest"
+                                target="_blank" rel="noopener noreferrer">
+                                <img src="/logos/pinterest.png" alt="Pinterest">
+                            </a>
+                            <a href="https://www.facebook.com/aimallglobal/" class="social-icon" aria-label="Facebook"
+                                target="_blank" rel="noopener noreferrer">
+                                <img src="/logos/facebook.png" alt="Facebook">
+                            </a>
+                            <a href="https://api.whatsapp.com/send?phone=918359890909" class="social-icon"
+                                aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+                                <img src="/logos/whatsapp.png" alt="WhatsApp">
+                            </a>
+                            <a href="mailto:admin@uwo24.com" class="social-icon" aria-label="Gmail" target="_blank"
+                                rel="noopener noreferrer">
+                                <img src="/logos/gmail.png" alt="Gmail">
+                            </a>
+                            <a href="https://www.threads.net/@aimallglobal" class="social-icon" aria-label="Threads"
+                                target="_blank" rel="noopener noreferrer">
+                                <img src="/logos/thread.png" alt="Threads">
+                            </a>
+                            <a href="https://www.reddit.com/settings/profile/#visibility" class="social-icon"
+                                aria-label="Reddit" target="_blank" rel="noopener noreferrer">
+                                <img src="/logos/reddit.png" alt="Reddit">
+                            </a>
+                            <a href="https://www.quora.com/profile/Aimallglobal" class="social-icon" aria-label="Quora"
+                                target="_blank" rel="noopener noreferrer">
+                                <img src="/logos/quora.png" alt="Quora">
+                            </a>
+                            <a href="https://medium.com/@03sonalijain" class="social-icon" aria-label="Medium"
+                                target="_blank" rel="noopener noreferrer">
+                                <img src="/logos/medium.png" alt="Medium">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>© 2026 Unified Web Options (UWO™). All rights reserved.</p>
+                    <p class="footer-trademark">
+                        <a href="https://aimall24.com" target="_blank">AI-MALL™</a>,
+                        <a href="https://aseries.in" target="_blank">A-SERIES™</a>,
+                        <a href="https://uwo24.com" target="_blank">UWO™</a>,
+                        <a href="https://aisa24.com" target="_blank">AISA™</a> ARE PROPRIETARY TRADEMARKS.
+                    </p>
+                </div>
+            </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- PREMIUM CHATBOT — EFV™ STYLE -->
+    <div id="ai-chat-assistant">
+        <div class="chat-tooltip" id="chat-tooltip">Ask me anything</div>
+        <div class="chat-orb chatbot-chat-icon" onclick="toggleChat()">
+            <img src="logos/BOT.png" alt="AI Chatbot" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+    </div>
+
+    <div id="chat-window" class="chat-window" data-lenis-prevent>
+        <div class="chat-header">
+            <div class="chat-brand">
+                <div class="chat-logo-icon" onclick="openAdmin()" style="cursor:pointer;"><img src="logos/Logo.png"
+                        alt="AI-Mall" style="width:100%; height:100%; object-fit:contain;">
+                </div>
+                <div class="chat-title-group">
+                    <h4>AI-MALL™ Assistant</h4>
+                    <div class="status-dot"></div>
+                </div>
+            </div>
+            <button type="button" class="chat-close" title="Close Chat">✕</button>
+        </div>
+
+        <div class="chat-body" id="chat-body-view">
+            <div id="registration-view" class="registration-view">
+                <div class="reg-welcome">Join AI-MALL™ Intelligence</div>
+                <form class="reg-form" id="chat-reg-form" onsubmit="handleChatReg(event)">
+                    <input type="text" id="chat-reg-name" class="reg-input" placeholder="Full Name *" required>
+                    <input type="email" id="chat-reg-email" class="reg-input" placeholder="Email Address *" required>
+                    <button type="submit" class="reg-btn">
+                        <span>Join Now</span>
+                    </button>
+                </form>
+            </div>
+            <div id="chat-messages" class="chat-messages" style="display:none; flex-direction:column; gap:15px;">
+                <div class="chat-msg msg-ai">Hi, I'm AI-MALL™ Assistant. How can I help you today?</div>
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <div class="chat-input-row">
+                <input type="text" id="chat-main-input" class="chat-text-input" placeholder="Register above to chat..."
+                    readonly>
+                <button class="chat-action-btn mic" onclick="toggleVoiceRec()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                        <line x1="12" y1="19" x2="12" y2="23" />
+                        <line x1="8" y1="23" x2="16" y2="23" />
+                    </svg>
+                </button>
+                <button class="chat-action-btn send" onclick="sendMessage()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M22 2L11 13" />
+                        <path d="M22 2L15 22L11 13L2 9L22 2z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // AISA™ Chatbot logic moved to main.js for cross-page persistence
+    </script>
+
+    <!-- Premium Gallery Modal (Music Player UI) -->
+    <div id="premium-gallery-modal" class="premium-modal">
+        <div class="modal-backdrop" onclick="closePremiumModal()"></div>
+        <div class="modal-card-outer">
+            <div class="premium-modal-card">
+                <button class="modal-close" onclick="closePremiumModal()">✕</button>
+
+                <!-- Large Image Slider Section -->
+                <div class="fullscreen-slider-area">
+                    <button class="slider-nav-btn prev" onclick="premiumGalleryPrev()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+
+                    <div class="slider-viewport">
+                        <img id="premium-gallery-img" src="aimallproject/slide-1.png" alt="AI Preview">
+                    </div>
+
+                    <button class="slider-nav-btn next" onclick="premiumGalleryNext()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Music Player Styled Controls -->
+                <div class="modal-footer-controls">
+                    <div class="controls-row">
+                        <!-- Left Side: Icon -->
+                        <div class="control-group">
+                            <button class="icon-btn like-btn" id="gallery-like-btn" title="Like"
+                                onclick="toggleGalleryLike()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Center: Playback Controls -->
+                        <div class="playback-controls">
+                            <button class="icon-btn shuffle-btn" id="gallery-shuffle-btn" title="Shuffle"
+                                onclick="shuffleGallery()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="16 3 21 3 21 8"></polyline>
+                                    <line x1="4" y1="20" x2="21" y2="3"></line>
+                                    <polyline points="21 16 21 21 16 21"></polyline>
+                                    <line x1="15" y1="15" x2="21" y2="21"></line>
+                                    <line x1="4" y1="4" x2="9" y2="9"></line>
+                                </svg>
+                            </button>
+
+                            <button class="icon-btn prev-btn" onclick="premiumGalleryPrev()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                                    <line x1="5" y1="19" x2="5" y2="5"></line>
+                                </svg>
+                            </button>
+
+                            <button class="main-play-btn" onclick="toggleGalleryAutoPlay()" id="gallery-play-btn">
+                                <svg id="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                                <svg id="pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                                    style="display:none;">
+                                    <rect x="6" y="4" width="4" height="16"></rect>
+                                    <rect x="14" y="4" width="4" height="16"></rect>
+                                </svg>
+                            </button>
+
+                            <button class="icon-btn next-btn" onclick="premiumGalleryNext()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                                    <line x1="19" y1="5" x2="19" y2="19"></line>
+                                </svg>
+                            </button>
+
+                            <button class="icon-btn repeat-btn" id="gallery-repeat-btn" title="Repeat"
+                                onclick="toggleGalleryRepeat()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="17 1 21 5 17 9"></polyline>
+                                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                                    <polyline points="7 23 3 19 7 15"></polyline>
+                                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Right: Volume -->
+                        <div class="control-group">
+                            <button class="icon-btn volume-btn" id="gallery-volume-btn" title="Volume"
+                                onclick="toggleGalleryVolume()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legal Modal (Terms & Privacy) -->
+    <div id="legal-modal" class="legal-modal">
+        <div class="legal-modal-backdrop" onclick="closeLegalModal()"></div>
+        <div class="legal-modal-container">
+            <div class="legal-modal-card glass">
+                <button class="legal-modal-close" onclick="closeLegalModal()">✕</button>
+                <div id="legal-modal-content" class="legal-modal-content">
+                    <!-- Dynamic Legal Content Injection -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script src="/config.js" type="module"></script>
+    <script src="/gateway.js" type="module"></script>
+    <script type="module" src="/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xna5nopco6");
+</script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI-MALL™ RAG Admin — AI-MALL™</title>
+<meta name="description" content="AI-MALL RAG Admin Dashboard: manage knowledge base, analytics, query logs."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root{
+  --bg:#07091a;--bg2:#0d1128;--bg3:#121630;
+  --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
+  --blue:#4f8ef7;--purple:#9b6dff;--cyan:#22d3ee;--green:#22c55e;--red:#f87272;--amber:#fbbf24;
+  --grad:linear-gradient(135deg,#4f8ef7,#9b6dff);
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#475569;
+  --radius:12px;--radius-lg:18px;
+  --trans:.2s ease;
+  --sidebar:240px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* ── Login Screen ── */
+#loginScreen{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 30% 40%,rgba(79,142,247,.15) 0%,transparent 60%),
+             radial-gradient(ellipse at 70% 70%,rgba(155,109,255,.12) 0%,transparent 60%),var(--bg);
+  z-index:9999;transition:opacity .4s ease;
+}
+#loginScreen.hidden{opacity:0;pointer-events:none;}
+.login-card{
+  width:420px;padding:48px 40px;
+  background:rgba(13,17,40,.9);border:1px solid var(--glass-border);
+  border-radius:24px;backdrop-filter:blur(20px);
+  box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(79,142,247,.1);
+  animation:slideUp .5s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:none;}}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px;}
+.login-logo .icon{width:44px;height:44px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:22px;}
+.login-logo h1{font-size:20px;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.login-card p{color:var(--text2);margin-bottom:28px;font-size:14px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;}
+.field input{
+  width:100%;padding:12px 16px;background:rgba(255,255,255,.05);
+  border:1px solid var(--glass-border);border-radius:var(--radius);
+  color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:var(--trans);
+}
+.field input:focus{border-color:var(--blue);background:rgba(79,142,247,.06);}
+.btn-primary{
+  width:100%;padding:13px;background:var(--grad);border:none;border-radius:var(--radius);
+  color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:var(--trans);margin-top:8px;
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(79,142,247,.4);}
+.btn-primary:active{transform:none;}
+#loginError{color:var(--red);font-size:13px;margin-top:12px;text-align:center;min-height:18px;}
+
+/* ── App Shell ── */
+#app{display:none;flex-direction:row;min-height:100vh;}
+#app.visible{display:flex;}
+
+/* ── Sidebar ── */
+.sidebar{
+  width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--glass-border);
+  display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100;
+}
+.sidebar-logo{padding:24px 20px;border-bottom:1px solid var(--glass-border);}
+.sidebar-logo .brand{font-size:16px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.sidebar-logo small{font-size:11px;color:var(--text3);display:block;margin-top:2px;}
+nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:4px;}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
+  cursor:pointer;color:var(--text2);font-size:13px;font-weight:500;transition:var(--trans);
+  border:1px solid transparent;
+}
+.nav-item:hover{background:var(--glass);color:var(--text);}
+.nav-item.active{background:rgba(79,142,247,.12);border-color:rgba(79,142,247,.2);color:var(--blue);}
+.nav-item .ico{font-size:16px;width:20px;text-align:center;}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text3);text-transform:uppercase;padding:16px 12px 6px;}
+.sidebar-footer{padding:16px;border-top:1px solid var(--glass-border);}
+.user-badge{display:flex;align-items:center;gap:8px;padding:10px;border-radius:8px;background:var(--glass);}
+.user-badge .avatar{width:32px;height:32px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;}
+.user-badge .info{flex:1;min-width:0;}
+.user-badge .info .name{font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.user-badge .info .role{font-size:10px;color:var(--text3);}
+.btn-logout{background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:4px;}
+
+/* ── Main Content ── */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;}
+.topbar{
+  padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--glass-border);background:rgba(7,9,26,.8);
+  backdrop-filter:blur(20px);position:sticky;top:0;z-index:50;
+}
+.topbar h2{font-size:18px;font-weight:700;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge.online{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2);}
+.badge.warning{background:rgba(251,191,36,.12);color:var(--amber);}
+
+.page{display:none;padding:32px;flex:1;animation:fadeIn .3s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* ── Cards ── */
+.card{
+  background:var(--bg2);border:1px solid var(--glass-border);border-radius:var(--radius-lg);
+  padding:24px;transition:var(--trans);
+}
+.card:hover{border-color:rgba(79,142,247,.2);}
+.card-glass{background:var(--glass);backdrop-filter:blur(20px);}
+
+/* ── Stats Grid ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:32px;}
+.stat-card{
+  padding:20px;border-radius:var(--radius-lg);background:var(--bg2);
+  border:1px solid var(--glass-border);position:relative;overflow:hidden;
+  transition:var(--trans);
+}
+.stat-card::before{content:'';position:absolute;inset:0;background:var(--grad);opacity:0;transition:var(--trans);}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(79,142,247,.1);}
+.stat-card:hover::before{opacity:.04;}
+.stat-icon{font-size:28px;margin-bottom:12px;}
+.stat-val{font-size:28px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-label{font-size:12px;color:var(--text2);margin-top:4px;}
+
+/* ── Section Header ── */
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.section-hdr h3{font-size:16px;font-weight:700;}
+.btn{
+  padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;
+  cursor:pointer;transition:var(--trans);border:none;display:inline-flex;align-items:center;gap:6px;
+}
+.btn-blue{background:var(--grad);color:#fff;}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(79,142,247,.35);}
+.btn-ghost{background:var(--glass);color:var(--text);border:1px solid var(--glass-border);}
+.btn-ghost:hover{background:rgba(255,255,255,.08);}
+.btn-danger{background:rgba(248,114,114,.12);color:var(--red);border:1px solid rgba(248,114,114,.2);}
+.btn-danger:hover{background:rgba(248,114,114,.2);}
+.btn-sm{padding:6px 12px;font-size:12px;}
+.btn-xs{padding:4px 9px;font-size:11px;border-radius:6px;}
+
+/* ── Upload Zone ── */
+.upload-zone{
+  border:2px dashed rgba(79,142,247,.3);border-radius:var(--radius-lg);
+  padding:40px;text-align:center;cursor:pointer;transition:var(--trans);
+  background:rgba(79,142,247,.03);margin-bottom:24px;
+}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--blue);background:rgba(79,142,247,.06);}
+.upload-zone .icon{font-size:48px;margin-bottom:12px;display:block;}
+.upload-zone h4{font-size:16px;font-weight:600;margin-bottom:6px;}
+.upload-zone p{font-size:13px;color:var(--text2);}
+#fileInput{display:none;}
+
+/* ── Progress ── */
+.progress-bar{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;margin-top:8px;}
+.progress-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .3s ease;}
+
+/* ── Table ── */
+.table-wrap{overflow-x:auto;border-radius:var(--radius);}
+table{width:100%;border-collapse:collapse;}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--glass-border);}
+td{padding:13px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.02);}
+
+/* ── Status Pill ── */
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;}
+.pill.processed{color:var(--green);background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);}
+.pill.pending{color:var(--amber);background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);}
+.pill.processing{color:var(--blue);background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);}
+.pill.error{color:var(--red);background:rgba(248,114,114,.1);border:1px solid rgba(248,114,114,.2);}
+.pill.rag{color:var(--cyan);background:rgba(34,211,238,.1);}
+.pill.fallback{color:var(--purple);background:rgba(155,109,255,.1);}
+.pill.success{color:var(--green);background:rgba(34,197,94,.1);}
+.pill.failed{color:var(--red);background:rgba(248,114,114,.1);}
+
+/* ── Log entry ── */
+.log-entry{
+  padding:14px 16px;border-radius:var(--radius);background:rgba(255,255,255,.02);
+  border:1px solid var(--glass-border);margin-bottom:10px;transition:var(--trans);
+}
+.log-entry:hover{border-color:rgba(79,142,247,.2);background:rgba(79,142,247,.03);}
+.log-entry .q{font-size:13px;font-weight:500;margin-bottom:6px;}
+.log-entry .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.log-time{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;}
+
+/* ── Charts placeholder ── */
+.chart-bar{display:flex;align-items:flex-end;gap:4px;height:80px;padding:8px 0;}
+.bar{flex:1;border-radius:3px 3px 0 0;background:var(--grad);opacity:.7;transition:var(--trans);min-width:8px;}
+.bar:hover{opacity:1;}
+
+/* ── Toast ── */
+#toast{
+  position:fixed;bottom:32px;right:32px;z-index:9999;
+  padding:14px 20px;border-radius:var(--radius);font-size:13px;font-weight:500;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);transform:translateY(60px);opacity:0;
+  transition:all .3s ease;pointer-events:none;max-width:320px;
+}
+#toast.show{transform:none;opacity:1;}
+#toast.success{background:#0d2818;border:1px solid rgba(34,197,94,.3);color:var(--green);}
+#toast.error{background:#2a0d0d;border:1px solid rgba(248,114,114,.3);color:var(--red);}
+#toast.info{background:#0d1a2a;border:1px solid rgba(79,142,247,.3);color:var(--blue);}
+
+/* ── Spinner ── */
+.spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,.1);border-top-color:var(--blue);border-radius:50%;animation:spin .6s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── Score bar ── */
+.score-bar{display:flex;align-items:center;gap:8px;font-size:12px;}
+.score-track{flex:1;height:4px;background:rgba(255,255,255,.07);border-radius:2px;}
+.score-fill{height:100%;border-radius:2px;background:var(--grad);}
+
+/* ── Responsive ── */
+/* Global Cinematic Text Reveal */
+.smooth-reveal {
+  opacity:0;filter:blur(8px);transform:translateY(24px);
+  transition:opacity 1.2s cubic-bezier(.23,1,.32,1),filter 1.2s cubic-bezier(.23,1,.32,1),transform 1.2s cubic-bezier(.23,1,.32,1);
+}
+.smooth-reveal.active {opacity:1;filter:blur(0);transform:none;}
+
+/* ── Mobile Header ── */
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0 16px;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 101;
+  backdrop-filter: blur(10px);
+}
+.menu-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-logo-text {
+  font-size: 14px;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 99;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    left: calc(var(--sidebar) * -1);
+    transition: left .3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sidebar.open {
+    left: 0;
+  }
+  .sidebar-overlay.show {
+    display: block;
+    opacity: 1;
+  }
+  .main {
+    margin-left: 0;
+  }
+  .mobile-header {
+    display: flex;
+  }
+  .topbar {
+    top: 56px;
+    padding: 0 16px;
+    height: 50px;
+  }
+  .topbar h2 {
+    font-size: 15px;
+  }
+  .page {
+    padding: 16px;
+    padding-top: 24px;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stat-val {
+    font-size: 20px;
+  }
+  /* Grid layouts */
+  div[style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  .login-card {
+    width: 90%;
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .topbar-right {
+    display: none;
+  }
+  .upload-zone {
+    padding: 24px 16px;
+  }
+  .upload-zone .icon {
+    font-size: 32px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ LOGIN ═══════ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="icon">🤖</div>
+      <h1>AI-MALL™ RAG Admin</h1>
+    </div>
+    <p>Sign in to manage your AI knowledge base and RAG pipeline.</p>
+    <div class="field">
+      <label>Username / Email</label>
+      <input type="text" id="loginUser" placeholder="Enter username or email" autocomplete="username"/>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"/>
+    </div>
+    <button class="btn-primary" id="loginBtn" onclick="doLogin()">Sign In →</button>
+    <div id="loginError"></div>
+  </div>
+</div>
+
+<!-- ═══════ APP SHELL ═══════ -->
+<div id="app">
+
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div class="mobile-logo-text">AI-MALL™ RAG</div>
+    <div style="width:20px"></div>
+  </div>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="brand">AI-MALL™ RAG</div>
+      <small>Knowledge Intelligence Platform</small>
+    </div>
+    <nav>
+      <div class="nav-section">Overview</div>
+      <div class="nav-item active" onclick="goPage('dashboard')" id="nav-dashboard">
+        <span class="ico">📊</span>Dashboard
+      </div>
+
+      <div class="nav-section">Knowledge Base</div>
+      <div class="nav-item" onclick="goPage('knowledgeBase')" id="nav-knowledgeBase">
+        <span class="ico">📁</span>Documents
+      </div>
+
+      <div class="nav-section">Analytics</div>
+      <div class="nav-item" onclick="goPage('analytics')" id="nav-analytics">
+        <span class="ico">📈</span>Analytics
+      </div>
+      <div class="nav-item" onclick="goPage('logs')" id="nav-logs">
+        <span class="ico">🗒️</span>Query Logs
+      </div>
+
+      <div class="nav-section">System</div>
+      <div class="nav-item" onclick="goPage('users')" id="nav-users">
+        <span class="ico">👥</span>Users
+      </div>
+      <div class="nav-item" onclick="goPage('webhooks')" id="nav-webhooks">
+        <span class="ico">🔗</span>Webhooks
+      </div>
+      <div class="nav-item" onclick="window.open('../chatbot.html','_blank')">
+        <span class="ico">💬</span>Open Chatbot ↗
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-badge">
+        <div class="avatar" id="userAvatar">A</div>
+        <div class="info">
+          <div class="name" id="userName">admin</div>
+          <div class="role" id="userRole">Administrator</div>
+        </div>
+        <button class="btn-logout" onclick="doLogout()" title="Logout">⏻</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="topbar">
+      <h2 id="pageTitle">Dashboard</h2>
+      <div class="topbar-right">
+        <span class="badge online" id="apiStatus">● Connected</span>
+        <span class="badge" id="ragStatus" style="background:rgba(155,109,255,.12);color:#9b6dff;border:1px solid rgba(155,109,255,.2)">RAG Active</span>
+      </div>
+    </div>
+
+    <!-- ── PAGE: Dashboard ── -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card"><div class="stat-icon">💬</div><div class="stat-val" id="s-total">—</div><div class="stat-label">Total Queries</div></div>
+        <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-val" id="s-rag">—</div><div class="stat-label">RAG Hits</div></div>
+        <div class="stat-card"><div class="stat-icon">🔄</div><div class="stat-val" id="s-fallback">—</div><div class="stat-label">Fallback (LLM)</div></div>
+        <div class="stat-card"><div class="stat-icon">📁</div><div class="stat-val" id="s-docs">—</div><div class="stat-label">Documents</div></div>
+        <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-val" id="s-time">—</div><div class="stat-label">Avg Response</div></div>
+        <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-val" id="s-today">—</div><div class="stat-label">Today's Queries</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="card">
+          <div class="section-hdr"><h3>📈 Daily Queries (7d)</h3></div>
+          <div class="chart-bar" id="dailyChart"></div>
+          <div id="dailyLabels" style="display:flex;gap:4px;margin-top:4px;"></div>
+        </div>
+        <div class="card">
+          <div class="section-hdr"><h3>🏆 Top Queries</h3></div>
+          <div id="topQueriesList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: Knowledge Base ── -->
+    <div class="page" id="page-knowledgeBase">
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()"
+           ondragover="ev.preventDefault();this.classList.add('drag')"
+           ondragleave="this.classList.remove('drag')"
+           ondrop="handleDrop(event)">
+        <span class="icon">☁️</span>
+        <h4>Upload Documents to Knowledge Base</h4>
+        <p>Drag & drop PDF, DOCX, or TXT files — or click to browse</p>
+        <p style="margin-top:8px;font-size:12px;color:var(--text3)">Max 50MB per file</p>
+      </div>
+      <input type="file" id="fileInput" accept=".pdf,.docx,.doc,.txt" onchange="handleFileSelect(event)"/>
+      
+      <div id="uploadProgress" style="display:none;margin-bottom:20px;">
+        <div class="card" style="padding:16px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="spinner"></div>
+            <div style="flex:1">
+              <div id="uploadFileName" style="font-size:13px;font-weight:500;margin-bottom:6px;">Uploading…</div>
+              <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-hdr">
+          <h3>📚 Knowledge Base Documents</h3>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-ghost btn-sm" onclick="loadDocuments()">🔄 Refresh</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="docsTable">
+            <thead>
+              <tr>
+                <th>File Name</th><th>Type</th><th>Size</th><th>Chunks</th>
+                <th>Language</th><th>Status</th><th>Uploaded</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="docsBody"><tr><td colspan="8" style="text-align:center;color:var(--text3);padding:32px">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: Analytics ── -->
+    <div class="page" id="page-analytics">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-val" id="a-ragRate">—</div><div class="stat-label">RAG Success Rate</div></div>
+        <div class="stat-card"><div class="stat-icon">❌</div><div class="stat-val" id="a-failed">—</div><div class="stat-label">Failed Queries</div></div>
+        <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-val" id="a-avgMs">—</div><div class="stat-label">Avg Response ms</div></div>
+        <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val" id="a-processed">—</div><div class="stat-label">Docs Processed</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="card">
+          <h3 style="margin-bottom:16px;">🏆 Top 10 Queries</h3>
+          <div id="topQueriesAnalytics"></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:16px;">⚠️ Failed Queries</h3>
+          <div id="failedQueriesAnalytics"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: Query Logs ── -->
+    <div class="page" id="page-logs">
+      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;">
+        <button class="btn btn-ghost btn-sm" onclick="logFilter='';loadLogs()">All</button>
+        <button class="btn btn-sm" style="background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid rgba(34,211,238,.2)" onclick="logFilter='ragOnly';loadLogs()">RAG Only</button>
+        <button class="btn btn-sm" style="background:rgba(248,114,114,.1);color:var(--red);border:1px solid rgba(248,114,114,.2)" onclick="logFilter='failedOnly';loadLogs()">Failed Only</button>
+        <div style="margin-left:auto;font-size:13px;color:var(--text2)" id="logCount"></div>
+        <button class="btn btn-ghost btn-sm" onclick="loadLogs()">🔄</button>
+      </div>
+      <div id="logsList"></div>
+      <div style="display:flex;justify-content:center;gap:8px;margin-top:20px;" id="logPagination"></div>
+    </div>
+
+    <!-- ── PAGE: Users ── -->
+    <div class="page" id="page-users">
+      <div class="card">
+        <div class="section-hdr">
+          <h3>👥 User Management</h3>
+          <button class="btn btn-blue btn-sm" onclick="showRegisterModal()">+ Add User</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Last Login</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="usersBody"><tr><td colspan="6" style="text-align:center;color:var(--text3);padding:32px">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: Webhooks ── -->
+    <div class="page" id="page-webhooks">
+      <div class="card" style="margin-bottom:20px;">
+        <h3 style="margin-bottom:16px;">➕ Add Webhook</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="field"><label>Name</label><input type="text" id="wh-name" placeholder="My Integration"/></div>
+          <div class="field"><label>URL</label><input type="text" id="wh-url" placeholder="https://hooks.example.com/..."/></div>
+          <div class="field"><label>Secret (optional)</label><input type="text" id="wh-secret" placeholder="webhook-secret"/></div>
+          <div class="field"><label>Events</label>
+            <select id="wh-events" style="width:100%;padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);border-radius:var(--radius);color:var(--text);font-family:inherit;outline:none;">
+              <option value="query,upload,error">All Events</option>
+              <option value="query">Query Only</option>
+              <option value="upload">Upload Only</option>
+              <option value="error">Errors Only</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-blue" style="margin-top:8px" onclick="addWebhook()">➕ Add Webhook</button>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:16px;">🔗 Active Webhooks</h3>
+        <div id="webhooksList"></div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Config -->
+<script src="/config.js" type="module"></script>
+<script>
+// ═══════════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════════
+// Environment Variable loaded from .env
+const envVal = "%VITE_API_BASE_URL%";
+const API = (!envVal.startsWith('%') ? envVal : null) || window.API_BASE_URL || '';
+let TOKEN = localStorage.getItem('rag_token') || '';
+let currentUser = JSON.parse(localStorage.getItem('rag_user') || '{}');
+let logFilter = '';
+let logPage   = 1;
+
+// ── Auth helpers ──────────────────────────────────────
+function authHeaders() {
+  return { 'Content-Type':'application/json', 'Authorization': `Bearer ${TOKEN}` };
+}
+
+async function apiFetch(path, opts = {}) {
+  const res = await fetch(API + path, {
+    ...opts,
+    headers: { ...authHeaders(), ...(opts.headers || {}) }
+  });
+  if (res.status === 401) { doLogout(); return null; }
+  return res.json();
+}
+
+// ── Login ─────────────────────────────────────────────
+async function doLogin() {
+  const btn  = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginError');
+  const u    = document.getElementById('loginUser').value.trim();
+  const p    = document.getElementById('loginPass').value;
+  errEl.textContent = '';
+  btn.textContent = '…';
+  try {
+    const data = await fetch(`${API}/api/auth/login`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ username: u, password: p })
+    }).then(r => r.json());
+
+    if (!data.success) { errEl.textContent = data.error || 'Login failed'; btn.textContent = 'Sign In →'; return; }
+    TOKEN = data.token;
+    currentUser = data.user;
+    localStorage.setItem('rag_token', TOKEN);
+    localStorage.setItem('rag_user', JSON.stringify(currentUser));
+    initApp();
+  } catch (e) {
+    errEl.textContent = 'Cannot reach server. Is the backend running?';
+    btn.textContent = 'Sign In →';
+  }
+}
+document.getElementById('loginPass').addEventListener('keydown', e => e.key === 'Enter' && doLogin());
+
+function doLogout() {
+  TOKEN = ''; currentUser = {};
+  localStorage.removeItem('rag_token');
+  localStorage.removeItem('rag_user');
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('app').classList.remove('visible');
+}
+
+function initApp() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('userName').textContent   = currentUser.username || 'admin';
+  document.getElementById('userRole').textContent   = currentUser.role || 'admin';
+  document.getElementById('userAvatar').textContent = (currentUser.username||'A')[0].toUpperCase();
+  loadDashboard();
+}
+
+// Auto-login if token exists
+if (TOKEN) {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('userName').textContent   = currentUser.username || 'admin';
+  document.getElementById('userRole').textContent   = currentUser.role || 'admin';
+  document.getElementById('userAvatar').textContent = (currentUser.username||'A')[0].toUpperCase();
+  loadDashboard();
+}
+
+// ── Navigation ────────────────────────────────────────
+const pageTitles = {
+  dashboard:'Dashboard', knowledgeBase:'Knowledge Base', analytics:'Analytics',
+  logs:'Query Logs', users:'Users', webhooks:'Webhooks'
+};
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.getElementById('nav-'+id)?.classList.add('active');
+  document.getElementById('pageTitle').textContent = pageTitles[id] || id;
+  if (id === 'knowledgeBase') loadDocuments();
+  if (id === 'analytics')     loadAnalytics();
+  if (id === 'logs')          { logPage=1; loadLogs(); }
+  if (id === 'users')         loadUsers();
+  if (id === 'webhooks')      loadWebhooks();
+}
+
+// ── Toast ─────────────────────────────────────────────
+function toast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `show ${type}`;
+  setTimeout(() => t.className = '', 3000);
+}
+
+// ═══════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════
+async function loadDashboard() {
+  const [ov, daily, top] = await Promise.all([
+    apiFetch('/api/analytics/overview'),
+    apiFetch('/api/analytics/daily?days=7'),
+    apiFetch('/api/analytics/top-queries')
+  ]);
+  if (ov?.success) {
+    const s = ov.stats;
+    document.getElementById('s-total').textContent    = s.totalQueries.toLocaleString();
+    document.getElementById('s-rag').textContent      = s.ragQueries.toLocaleString();
+    document.getElementById('s-fallback').textContent = s.fallbackQueries.toLocaleString();
+    document.getElementById('s-docs').textContent     = s.totalDocs.toLocaleString();
+    document.getElementById('s-time').textContent     = s.avgResponseMs + 'ms';
+    document.getElementById('s-today').textContent    = s.todayQueries.toLocaleString();
+  }
+  if (daily?.success) renderDailyChart(daily.daily);
+  if (top?.success)   renderTopQueries(top.topQueries, 'topQueriesList', 5);
+}
+
+function renderDailyChart(data) {
+  const chart  = document.getElementById('dailyChart');
+  const labels = document.getElementById('dailyLabels');
+  if (!data || !data.length) { chart.innerHTML = '<p style="color:var(--text3);font-size:12px">No data yet</p>'; return; }
+  const max = Math.max(...data.map(d => d.total), 1);
+  chart.innerHTML = data.map(d => `
+    <div title="${d._id}: ${d.total} queries" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
+      <span style="font-size:10px;color:var(--text3)">${d.total}</span>
+      <div class="bar" style="width:100%;height:${Math.max(6,(d.total/max)*60)}px"></div>
+    </div>`).join('');
+  labels.innerHTML = data.map(d => `<span style="flex:1;font-size:9px;color:var(--text3);text-align:center">${d._id.slice(5)}</span>`).join('');
+}
+
+function renderTopQueries(data, containerId, limit=10) {
+  const el = document.getElementById(containerId);
+  if (!data?.length) { el.innerHTML='<p style="color:var(--text3);font-size:13px">No data yet</p>'; return; }
+  el.innerHTML = data.slice(0,limit).map((q,i) => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--glass-border);">
+      <span style="font-size:11px;color:var(--text3);width:18px">#${i+1}</span>
+      <span style="flex:1;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${q._id}</span>
+      <span class="pill rag">${q.count}×</span>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// KNOWLEDGE BASE
+// ═══════════════════════════════════════════════════════
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file) uploadFile(file);
+}
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (file) uploadFile(file);
+}
+
+async function uploadFile(file) {
+  const prog = document.getElementById('uploadProgress');
+  const fill = document.getElementById('progressFill');
+  const name = document.getElementById('uploadFileName');
+  prog.style.display = 'block';
+  name.textContent   = `Uploading ${file.name}…`;
+
+  // Simulate progress
+  let pct = 0;
+  const iv = setInterval(() => { pct = Math.min(pct + 8, 85); fill.style.width = pct + '%'; }, 200);
+
+  try {
+    const fd = new FormData();
+    fd.append('file', file);
+    const res = await fetch(`${API}/api/documents/upload`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${TOKEN}` },
+      body: fd
+    }).then(r => r.json());
+
+    clearInterval(iv);
+    fill.style.width = '100%';
+    if (res.success) {
+      toast(`✅ ${file.name} uploaded — processing started`, 'success');
+      setTimeout(() => { prog.style.display='none'; fill.style.width='0%'; loadDocuments(); }, 1500);
+    } else {
+      toast(`❌ Upload failed: ${res.error}`, 'error');
+      prog.style.display = 'none';
+    }
+  } catch (e) {
+    clearInterval(iv);
+    toast('❌ Upload failed — check server connection', 'error');
+    prog.style.display = 'none';
+  }
+  document.getElementById('fileInput').value = '';
+}
+
+async function loadDocuments() {
+  const data = await apiFetch('/api/documents');
+  const tbody = document.getElementById('docsBody');
+  if (!data?.success) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--red)">Error loading documents</td></tr>'; return; }
+  if (!data.documents.length) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text3);padding:32px">No documents uploaded yet. Upload your first document above! 👆</td></tr>'; return; }
+
+  tbody.innerHTML = data.documents.map(d => `
+    <tr>
+      <td><span style="font-weight:500">${esc(d.originalName)}</span></td>
+      <td><span style="font-size:11px;color:var(--text3)">${esc(d.mimeType.split('/').pop().toUpperCase())}</span></td>
+      <td>${formatBytes(d.fileSize)}</td>
+      <td>${d.chunkCount || '—'}</td>
+      <td><span style="font-size:12px">${d.language || '—'}</span></td>
+      <td><span class="pill ${d.status}">${d.status}</span></td>
+      <td class="log-time">${fmtDate(d.created_at)}</td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          ${d.status !== 'processing' ? `<button class="btn btn-ghost btn-xs" onclick="reprocess('${d._id}')">🔄</button>` : ''}
+          <button class="btn btn-danger btn-xs" onclick="deleteDoc('${d._id}','${esc(d.originalName)}')">🗑️</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+async function reprocess(id) {
+  const data = await apiFetch(`/api/documents/${id}/reprocess`, { method:'POST' });
+  if (data?.success) { toast('🔄 Reprocessing started', 'info'); setTimeout(loadDocuments, 1000); }
+  else toast('❌ ' + (data?.error || 'Error'), 'error');
+}
+
+async function deleteDoc(id, name) {
+  if (!confirm(`Delete "${name}" and all its vectors?`)) return;
+  const data = await apiFetch(`/api/documents/${id}`, { method:'DELETE' });
+  if (data?.success) { toast('🗑️ Document deleted', 'success'); loadDocuments(); }
+  else toast('❌ ' + (data?.error || 'Delete failed'), 'error');
+}
+
+// ═══════════════════════════════════════════════════════
+// ANALYTICS
+// ═══════════════════════════════════════════════════════
+async function loadAnalytics() {
+  const [ov, top, failed] = await Promise.all([
+    apiFetch('/api/analytics/overview'),
+    apiFetch('/api/analytics/top-queries'),
+    apiFetch('/api/analytics/failed-queries')
+  ]);
+  if (ov?.success) {
+    const s = ov.stats;
+    document.getElementById('a-ragRate').textContent  = s.ragSuccessRate + '%';
+    document.getElementById('a-failed').textContent   = s.failedQueries;
+    document.getElementById('a-avgMs').textContent    = s.avgResponseMs + 'ms';
+    document.getElementById('a-processed').textContent = s.processedDocs;
+  }
+  if (top?.success)    renderTopQueries(top.topQueries, 'topQueriesAnalytics', 10);
+  if (failed?.success) {
+    const el = document.getElementById('failedQueriesAnalytics');
+    if (!failed.failedQueries.length) { el.innerHTML='<p style="color:var(--text3);font-size:13px">No failed queries 🎉</p>'; }
+    else el.innerHTML = failed.failedQueries.map(q => `
+      <div style="padding:8px 0;border-bottom:1px solid var(--glass-border);">
+        <div style="font-size:12px;margin-bottom:3px">${esc(q.userQuery)}</div>
+        <div style="font-size:11px;color:var(--red)">${esc(q.errorMessage||'Unknown error')}</div>
+        <div class="log-time">${fmtDate(q.created_at)}</div>
+      </div>`).join('');
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// LOGS
+// ═══════════════════════════════════════════════════════
+async function loadLogs() {
+  const params = [`page=${logPage}`, `limit=15`];
+  if (logFilter === 'ragOnly')    params.push('ragOnly=true');
+  if (logFilter === 'failedOnly') params.push('failedOnly=true');
+  const data = await apiFetch(`/api/analytics/logs?${params.join('&')}`);
+  const el   = document.getElementById('logsList');
+  if (!data?.success) { el.innerHTML='<p style="color:var(--red)">Error loading logs</p>'; return; }
+  document.getElementById('logCount').textContent = `${data.total} entries`;
+
+  if (!data.logs.length) { el.innerHTML='<p style="color:var(--text3);font-size:13px">No logs match this filter.</p>'; return; }
+  el.innerHTML = data.logs.map(l => `
+    <div class="log-entry">
+      <div class="q">${esc(l.userQuery)}</div>
+      <div class="meta">
+        <span class="pill ${l.ragUsed?'rag':'fallback'}">${l.ragUsed?'RAG':'Fallback'}</span>
+        <span class="pill ${l.success?'success':'failed'}">${l.success?'OK':'Failed'}</span>
+        ${l.similarityScore ? `<span style="font-size:11px;color:var(--text2)">Score: ${(l.similarityScore*100).toFixed(0)}%</span>` : ''}
+        <span style="font-size:11px;color:var(--text2)">${l.responseTimeMs}ms</span>
+        <span class="log-time">${fmtDate(l.created_at)}</span>
+        <span style="font-size:10px;color:var(--text3)">${l.sessionId}</span>
+      </div>
+      ${l.responseText ? `<div style="font-size:11px;color:var(--text2);margin-top:6px;padding-top:6px;border-top:1px solid var(--glass-border);overflow:hidden;max-height:36px">${esc(l.responseText.slice(0,120))}…</div>` : ''}
+    </div>`).join('');
+
+  // Pagination
+  const pages = data.pages;
+  let pag = '';
+  for (let i=1; i<=pages; i++) pag += `<button class="btn btn-ghost btn-sm" style="${i===logPage?'border-color:var(--blue);color:var(--blue)':''}" onclick="logPage=${i};loadLogs()">${i}</button>`;
+  document.getElementById('logPagination').innerHTML = pag;
+}
+
+// ═══════════════════════════════════════════════════════
+// USERS
+// ═══════════════════════════════════════════════════════
+async function loadUsers() {
+  const data = await apiFetch('/api/auth/users');
+  const tbody = document.getElementById('usersBody');
+  if (!data?.success) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text3)">No permission or error</td></tr>'; return; }
+  tbody.innerHTML = data.users.map(u => `
+    <tr>
+      <td><strong>${esc(u.username)}</strong></td>
+      <td style="color:var(--text2);font-size:13px">${esc(u.email)}</td>
+      <td><span class="pill ${u.role==='admin'?'rag':'fallback'}">${u.role}</span></td>
+      <td class="log-time">${u.lastLogin ? fmtDate(u.lastLogin) : 'Never'}</td>
+      <td><span class="pill ${u.isActive?'processed':'error'}">${u.isActive?'Active':'Disabled'}</span></td>
+      <td>
+        <button class="btn btn-ghost btn-xs" onclick="toggleUser('${u._id}',${!u.isActive})">${u.isActive?'Disable':'Enable'}</button>
+      </td>
+    </tr>`).join('');
+}
+async function toggleUser(id, isActive) {
+  await apiFetch(`/api/auth/users/${id}`, { method:'PATCH', body: JSON.stringify({ isActive }) });
+  loadUsers();
+}
+function showRegisterModal() {
+  const u = prompt('New username:');
+  const e = prompt('Email:');
+  const p = prompt('Password:');
+  const r = prompt('Role (admin/viewer):') || 'viewer';
+  if (u && e && p) registerUser(u, e, p, r);
+}
+async function registerUser(username, email, password, role) {
+  const data = await apiFetch('/api/auth/register', { method:'POST', body: JSON.stringify({ username, email, password, role }) });
+  if (data?.success) { toast('✅ User created', 'success'); loadUsers(); }
+  else toast('❌ ' + (data?.error || 'Error'), 'error');
+}
+
+// ═══════════════════════════════════════════════════════
+// WEBHOOKS
+// ═══════════════════════════════════════════════════════
+async function loadWebhooks() {
+  const data = await apiFetch('/api/webhooks');
+  const el   = document.getElementById('webhooksList');
+  if (!data?.webhooks?.length) { el.innerHTML='<p style="color:var(--text3);font-size:13px">No webhooks configured yet.</p>'; return; }
+  el.innerHTML = data.webhooks.map(h => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:8px;background:var(--glass);border:1px solid var(--glass-border);margin-bottom:8px">
+      <div>
+        <div style="font-weight:600;font-size:13px">${esc(h.name)}</div>
+        <div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;margin-top:3px">${esc(h.url)}</div>
+        <div style="margin-top:4px">${(h.events||[]).map(ev=>`<span class="pill rag" style="font-size:10px;padding:1px 7px">${ev}</span>`).join(' ')}</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <span class="pill ${h.isActive?'processed':'error'}">${h.isActive?'Active':'Off'}</span>
+        <button class="btn btn-danger btn-xs" onclick="deleteWebhook('${h._id}')">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+async function addWebhook() {
+  const name   = document.getElementById('wh-name').value.trim();
+  const url    = document.getElementById('wh-url').value.trim();
+  const secret = document.getElementById('wh-secret').value.trim();
+  const events = document.getElementById('wh-events').value.split(',');
+  if (!name || !url) { toast('Name and URL required', 'error'); return; }
+  const data = await apiFetch('/api/webhooks', { method:'POST', body: JSON.stringify({ name, url, secret, events }) });
+  if (data?.success) { toast('✅ Webhook added', 'success'); loadWebhooks(); ['wh-name','wh-url','wh-secret'].forEach(i => document.getElementById(i).value=''); }
+  else toast('❌ ' + (data?.error||'Error'), 'error');
+}
+async function deleteWebhook(id) {
+  if (!confirm('Delete this webhook?')) return;
+  await apiFetch(`/api/webhooks/${id}`, { method:'DELETE' });
+  toast('🗑️ Webhook removed', 'success'); loadWebhooks();
+}
+
+// ═══════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function formatBytes(b) { if(!b) return '0B'; if(b<1024) return b+'B'; if(b<1048576) return (b/1024).toFixed(1)+'KB'; return (b/1048576).toFixed(1)+'MB'; }
+function fmtDate(d) { return new Date(d).toLocaleString('en-IN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); }
+
+// --- Smooth Reveal Init for Admin ---
+function initAdminReveals() {
+  const obs = new IntersectionObserver((es) => {
+    es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('revealed'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('h1,h2,h3,h4,p,li,.stat-val,.stat-label,.badge').forEach(el => {
+    el.classList.add('smooth-reveal');
+    obs.observe(el);
+  });
+}
+window.addEventListener('DOMContentLoaded', initAdminReveals);
+
+// Auto-refresh docs every 5s if on KB page
+setInterval(() => {
+  const kb = document.getElementById('page-knowledgeBase');
+  if (kb && kb.classList.contains('active')) {
+    loadDocuments();
+  }
+}, 5000);
+</script>
+</body>
+</html>

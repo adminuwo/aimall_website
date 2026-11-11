@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "xna5nopco6");
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Marketplace | AI-MALL™</title>
+    <meta name="description" content="Discover, purchase, and deploy production-ready AI agents, specialized modules, and business automation software.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/png" href="/logos/Logo.png">
+
+    <style>
+        /* Scoped styles to ensure premium visual presentation of subpage content */
+        .detail-hero {
+            padding: 140px 0 80px !important;
+            position: relative !important;
+            background: linear-gradient(135deg, #f8f9fe 0%, #f1f3fa 40%, #e9ecf8 80%, #f4f6fc 100%) !important;
+            overflow: hidden !important;
+        }
+        .detail-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(91, 95, 248, 0.07) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.04) 0%, transparent 50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .detail-hero-content {
+            position: relative !important;
+            z-index: 2 !important;
+            max-width: 800px !important;
+            margin: 0 auto !important;
+            text-align: center !important;
+        }
+        .back-link {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            color: #5B5FF8 !important;
+            text-decoration: none !important;
+            font-family: var(--font-body) !important;
+            font-weight: 600 !important;
+            font-size: 0.95rem !important;
+            margin-bottom: 24px !important;
+            transition: all 0.3s ease !important;
+        }
+        .back-link:hover {
+            transform: translateX(-4px) !important;
+            color: #3b82f6 !important;
+        }
+        .detail-body {
+            padding: 80px 0 !important;
+            position: relative !important;
+            background: #ffffff !important;
+        }
+        .detail-container {
+            max-width: 1100px !important;
+            margin: 0 auto !important;
+            padding: 0 30px !important;
+        }
+        .illustration-card {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            margin: -40px auto 60px !important;
+            max-width: 600px !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(247, 248, 255, 0.6) 100%) !important;
+            backdrop-filter: blur(25px) !important;
+            -webkit-backdrop-filter: blur(25px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.8) !important;
+            border-radius: 32px !important;
+            box-shadow: 0 20px 50px rgba(91, 95, 248, 0.05) !important;
+            padding: 40px !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+        .illustration-card img {
+            max-height: 320px !important;
+            width: auto !important;
+            object-fit: contain !important;
+        }
+        .section-grid {
+            display: grid !important;
+            grid-template-columns: 2fr 1fr !important;
+            gap: 60px !important;
+            margin-top: 40px !important;
+        }
+        @media (max-width: 992px) {
+            .section-grid {
+                grid-template-columns: 1fr !important;
+                gap: 40px !important;
+            }
+        }
+        .features-list {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 30px !important;
+        }
+        @media (max-width: 640px) {
+            .features-list {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        .feature-detail-card {
+            background: #fdfdfe !important;
+            border: 1px solid #f0f2f9 !important;
+            border-radius: 20px !important;
+            padding: 24px !important;
+            transition: all 0.3s ease !important;
+        }
+        .feature-detail-card:hover {
+            border-color: rgba(91, 95, 248, 0.25) !important;
+            box-shadow: 0 10px 24px rgba(91, 95, 248, 0.03) !important;
+            transform: translateY(-2px) !important;
+        }
+        .feature-detail-card h3 {
+            font-family: var(--font-heading) !important;
+            font-size: 1.15rem !important;
+            font-weight: 700 !important;
+            color: #050a1a !important;
+            margin-bottom: 8px !important;
+        }
+        .feature-detail-card p {
+            font-family: var(--font-body) !important;
+            font-size: 0.9rem !important;
+            color: rgba(5, 10, 26, 0.65) !important;
+            line-height: 1.6 !important;
+            margin: 0 !important;
+        }
+        .detail-sidebar {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(247, 248, 255, 0.45) 100%) !important;
+            border: 1px solid #f0f2f9 !important;
+            border-radius: 24px !important;
+            padding: 30px !important;
+            height: fit-content !important;
+        }
+        .sidebar-section {
+            margin-bottom: 30px !important;
+        }
+        .sidebar-section:last-child {
+            margin-bottom: 0 !important;
+        }
+        .sidebar-section h4 {
+            font-family: var(--font-heading) !important;
+            font-size: 1.05rem !important;
+            font-weight: 700 !important;
+            color: #050a1a !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.03em !important;
+            margin-bottom: 16px !important;
+        }
+        .sidebar-list {
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .sidebar-list li {
+            font-family: var(--font-body) !important;
+            font-size: 0.9rem !important;
+            color: rgba(5, 10, 26, 0.7) !important;
+            margin-bottom: 12px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 10px !important;
+        }
+        .sidebar-list li::before {
+            content: "✦" !important;
+            color: #5B5FF8 !important;
+            font-weight: bold !important;
+        }
+        .detail-cta-block {
+            margin-top: 80px !important;
+            text-align: center !important;
+            background: linear-gradient(135deg, rgba(91, 95, 248, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%) !important;
+            border: 1px dashed rgba(91, 95, 248, 0.15) !important;
+            border-radius: 32px !important;
+            padding: 60px 40px !important;
+        }
+        .detail-cta-block h2 {
+            font-family: var(--font-heading) !important;
+            font-size: 2rem !important;
+            font-weight: 700 !important;
+            color: #050a1a !important;
+            margin-bottom: 12px !important;
+        }
+        .detail-cta-block p {
+            font-family: var(--font-body) !important;
+            font-size: 1.05rem !important;
+            color: rgba(5, 10, 26, 0.6) !important;
+            margin-bottom: 30px !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Global Background Elements -->
+    <div class="global-noise"></div>
+    <div class="ambient-glow"></div>
+
+    <!-- Header / Navigation -->
+    <header id="header">
+        <div class="logo">
+            <a href="/index.html"><img src="/logos/Logo.png" alt="AI-MALL" class="nav-logo-img"></a>
+        </div>
+        <nav id="nav-menu">
+            <a href="/index.html" class="nav-link">Home</a>
+            <a href="/about.html" class="nav-link">About</a>
+            <a href="/a-series.html" class="nav-link">A-Series™</a>
+            <a href="/partner.html" class="nav-link">Partners</a>
+            <a href="/contact.html" class="nav-link">Contact</a>
+        </nav>
+        <div class="header-actions">
+            <div class="header-cta desktop-only">
+                <a href="/partner.html" class="nav-btn-link">Partner</a>
+                <a href="/a-series.html" class="btn-pill-small">Explore</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobile-toggle" aria-label="Toggle Menu">
+                <span class="bar top"></span>
+                <span class="bar mid"></span>
+                <span class="bar bot"></span>
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content">
+
+        <!-- HERO SECTION -->
+        <section class="detail-hero">
+            <div class="detail-hero-content">
+                <a href="/index.html" class="back-link">
+                    <span>←</span> Back to Home
+                </a>
+                <div class="section-label">Foundation</div>
+                <h1 class="headline" style="margin-top: 10px;">AI<br><span class="gradient-text">Marketplace</span></h1>
+                <p class="subheadline" style="max-width: 650px; margin: 20px auto 0;">
+                    A curated enterprise catalog to discover, test, and deploy specialized AI software modules in minutes.
+                </p>
+            </div>
+        </section>
+
+        <!-- BODY SECTION -->
+        <section class="detail-body">
+            <div class="detail-container">
+                
+                <!-- Illustration Frame -->
+                <div class="illustration-card">
+                    <img src="/ai_marketplace_dashboard.png" alt="AI Application Marketplace">
+                </div>
+
+                <!-- Structured Content Layout -->
+                <div class="section-grid">
+                    
+                    <!-- Left: Features -->
+                    <div>
+                        <h2 class="section-title" style="font-size: 1.8rem; margin-bottom: 24px; text-align: left;">Dynamic Application Ecosystem</h2>
+                        <div class="features-list">
+                            <div class="feature-detail-card">
+                                <h3>Enterprise App Catalog</h3>
+                                <p>Discover specialized models tailored for diverse industries. Browse fully tested, compliance-ready solutions with detailed performance logs.</p>
+                            </div>
+                            <div class="feature-detail-card">
+                                <h3>One-Click Activation</h3>
+                                <p>Launch and embed integrations into your stack instantaneously. Eliminate code rewriting and manual server setups.</p>
+                            </div>
+                            <div class="feature-detail-card">
+                                <h3>Automated AI Agents</h3>
+                                <p>Incorporate intelligent conversational nodes, automated customer ticket routes, and real-time database auditing elements.</p>
+                            </div>
+                            <div class="feature-detail-card">
+                                <h3>SaaS Ecosystem Expansion</h3>
+                                <p>Stay optimized with a catalog that continuously expands, hosting first-party releases and audited partner integrations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Benefits & Use cases -->
+                    <div class="detail-sidebar">
+                        <div class="sidebar-section">
+                            <h4>Marketplace Features</h4>
+                            <ul class="sidebar-list">
+                                <li>Vetted Security Standards</li>
+                                <li>Transparent Performance Metrics</li>
+                                <li>Unified billing & invoices</li>
+                                <li>Scalable API quotas</li>
+                            </ul>
+                        </div>
+                        <div class="sidebar-section">
+                            <h4>Target Applications</h4>
+                            <ul class="sidebar-list">
+                                <li>Customer service interfaces</li>
+                                <li>Data analysis dashboards</li>
+                                <li>Automated compliance monitors</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- CTA Section -->
+                <div class="detail-cta-block">
+                    <h2>Explore the AI Directory</h2>
+                    <p>Browse our catalog of custom agents, language tools, and automated pipelines today.</p>
+                    <a href="/contact.html" class="btn-premium primary glow" style="display: inline-flex; width: auto; padding: 15px 36px;">
+                        Contact Marketplace Admin <span style="margin-left: 10px;">→</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="/logos/Logo.png" alt="AI-MALL" class="footer-logo-img">
+                    </div>
+                    <p class="footer-description">
+                        Your gateway to next-generation intelligent solutions. Empowering businesses with AI-driven innovation and digital transformation.
+                    </p>
+                </div>
+                <div class="footer-nav">
+                    <div class="footer-col">
+                        <h4>Explore</h4>
+                        <a href="/a-series.html" class="footer-link">A-Series™</a>
+                        <a href="/partner.html" class="footer-link">Partner With Us</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Company</h4>
+                        <a href="/about.html" class="footer-link">About Us</a>
+                        <a href="/contact.html" class="footer-link">Contact</a>
+                    </div>
+                </div>
+                <div class="footer-social-hub">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/aimall.global/" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><img src="/logos/instagram.png" alt="Instagram"></a>
+                        <a href="https://www.linkedin.com/in/aimall-global/" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><img src="/logos/linked.png" alt="LinkedIn"></a>
+                        <a href="https://x.com/aimallglobal" class="social-icon" aria-label="X" target="_blank" rel="noopener noreferrer"><img src="/logos/X.png" alt="X"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <div class="footer-legal">
+                <p>© 2026 Unified Web Options (UWO™). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script type="module" src="/main.js"></script>
+</body>
+
+</html>
