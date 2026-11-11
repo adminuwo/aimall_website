@@ -109,6 +109,9 @@ router.post('/upload', verifyToken, requireAdmin, upload.single('document'), asy
 // ── GET /api/documents ────────────────────────────────────────────────────────
 router.get('/', verifyToken, requireViewer, async (req, res) => {
     try {
+        if (mongoose.connection.readyState !== 1) {
+            return res.json({ success: true, data: [], message: 'Database connecting or initializing' });
+        }
         const docs = await Document.find().sort({ created_at: -1 });
         const formatted = docs.map(d => ({
             _id: d._id,

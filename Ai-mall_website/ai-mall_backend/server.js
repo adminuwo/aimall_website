@@ -46,9 +46,17 @@ const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
     console.warn('⚠️ MONGO_URI missing in environment variables. Database features will be disabled.');
 } else {
-    mongoose.connect(MONGO_URI)
+    const connectMongo = () => {
+        mongoose.connect(MONGO_URI, {
+            serverSelectionTimeoutMS: 5000
+        })
         .then(() => console.log('✅ MongoDB Connected'))
-        .catch(err => console.error('❌ MongoDB Error:', err));
+        .catch(err => {
+            console.error('❌ MongoDB Error:', err.message);
+            setTimeout(connectMongo, 10000);
+        });
+    };
+    connectMongo();
 }
 
 // ── AI Init ──────────────────────────────────────────────────────────────────
